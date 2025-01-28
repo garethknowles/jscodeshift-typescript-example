@@ -10,7 +10,6 @@ import { ProfileInfoQueryMock } from "~/features/profile/graphql/ProfileInfo.que
 import { GetReferralCodeQueryMock } from "~/features/referrals/GetReferralCode/graphql/GetReferralCode.query.mock";
 import { BannerType, CardStatus } from "~/graphql/types";
 import { AppStoryComponent, defaultParameters } from "../AppStoryComponent";
-import { withApolloMocks } from "../decorators/withApolloMocks";
 import { withBannerMock } from "../decorators/withBannerMock";
 import { withMockFeatures } from "../decorators/withMockFeatures";
 import { withMockShare } from "../decorators/withMockShare";

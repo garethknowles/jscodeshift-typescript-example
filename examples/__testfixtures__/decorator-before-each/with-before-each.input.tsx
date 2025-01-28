@@ -10,7 +10,6 @@ import { ProfileInfoQueryMock } from "~/features/profile/graphql/ProfileInfo.que
 import { GetReferralCodeQueryMock } from "~/features/referrals/GetReferralCode/graphql/GetReferralCode.query.mock";
 import { BannerType, CardStatus } from "~/graphql/types";
 import { AppStoryComponent, defaultParameters } from "../AppStoryComponent";
-import { withApolloMocks } from "../decorators/withApolloMocks";
 import { withBannerMock } from "../decorators/withBannerMock";
 import { withMockFeatures } from "../decorators/withMockFeatures";
 import { withMockShare } from "../decorators/withMockShare";
@@ -20,6 +19,7 @@ import { withActiveUser } from "../decorators/withUser";
 import { Payment3DsRequestTakeoverQueryMock } from "../graphql/Payment3DsRequestTakeover.query.mock";
 import { FinCrimeFrozenQueryMock } from "~/features/cash-deposits/graphql/FinCrimeFrozen.query.mock";
 import { withStorybookApolloProvider } from "../withRootDecorator/withStorybookApolloProvider";
+import { withApolloMocks } from "~/withRootDecorator/withApolloMocks";
 
 const meta = {
   component: AppStoryComponent,

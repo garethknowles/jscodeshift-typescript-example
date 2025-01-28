@@ -155,16 +155,18 @@ export default function transformer(fileInfo: FileInfo, api: API) {
     });
 
   // Replace the import statement
+  let replacedImport = false;
   root
     .find(index.ImportDeclaration)
     .filter(
-      (path) =>
-        path.node.source.value ===
-          "~/../storybook/withRootDecorator/withStorybookApolloProvider" ||
-        path.node.source.value ===
-          "../withRootDecorator/withStorybookApolloProvider"
+      (path) => decoratorNames.filter((name) => path.node.source.value?.toString().includes(name)).length > 0
     )
     .forEach((path) => {
+      if (replacedImport) {
+        index(path).remove();
+        return
+      }
+      replacedImport = true;
       path.node.source.value = "~/../storybook/mocking/mockGraphQL";
       if (path.node.specifiers?.[0]?.local) {
         path.node.specifiers[0].local.name = "mockGraphQL";
