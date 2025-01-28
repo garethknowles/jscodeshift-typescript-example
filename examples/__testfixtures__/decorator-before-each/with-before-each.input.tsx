@@ -17,6 +17,8 @@ import { withMockShare } from "../decorators/withMockShare";
 import { withMockTrackingConsentProvider } from "../decorators/withMockTrackingConsentProvider";
 import { withNavigateOnAppStart } from "../decorators/withNavigateOnAppStart";
 import { withActiveUser } from "../decorators/withUser";
+import { Payment3DsRequestTakeoverQueryMock } from "../graphql/Payment3DsRequestTakeover.query.mock";
+import { FinCrimeFrozenQueryMock } from "~/features/cash-deposits/graphql/FinCrimeFrozen.query.mock";
 import { withStorybookApolloProvider } from "../withRootDecorator/withStorybookApolloProvider";
 
 const meta = {
@@ -25,6 +27,9 @@ const meta = {
   decorators: [
     withMockTrackingConsentProvider({ status: "complete" }),
     withActiveUser(),
+    withStorybookApolloProvider({
+      mocks: [Payment3DsRequestTakeoverQueryMock()],
+    }),
     withMockShare(),
   ],
   parameters: defaultParameters,
@@ -35,4 +40,48 @@ type Story = StoryObj<typeof meta>;
 
 export const ActivateYourPendingCard = {
   decorators: [withUser(), decoratorReference, withFeaturesProvider()],
+} satisfies Story;
+
+export const GenieAllEnabled = {
+  decorators: [
+    withStorybookApolloProvider({
+      mocks: [FinCrimeFrozenQueryMock()],
+    }),
+  ],
+} satisfies Story;
+
+export const GenieAllEnabledWithCustomerContext = {
+  decorators: [
+    withStorybookApolloProvider({
+      mocks: [FinCrimeFrozenQueryMock()],
+      customerContext: mockCustomerProviderSupplier("GENIE"),
+    }),
+  ],
+} satisfies Story;
+
+export const GenieAllEnabledWithJustCustomerContext = {
+  decorators: [
+    withStorybookApolloProvider({
+      customerContext: mockCustomerProviderSupplier("GENIE"),
+    }),
+  ],
+} satisfies Story;
+
+export const WithPotsAndInterestPot = {
+  decorators: [
+    withApolloMocks({
+      operationMocks: [
+        TransfersInAndInterestPotTransactionsQueryMock(),
+        PotsQueryMockWithInterestPot(),
+        PotInterestRatesQueryMock(),
+      ],
+    }),
+    withActiveUser({
+      supplier: "GENIE",
+    }),
+    withStorybookApolloProvider({
+      customerContext: mockCustomerProviderSupplier("GENIE"),
+    }),
+  ],
+  args: { storage_hasSeenPotIntroCarousel: "1" },
 } satisfies Story;
